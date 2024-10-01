@@ -15,7 +15,8 @@ class KeyboardButton
     {
         $data['action'] = $action;
         self::$buttons['keyboard'][$row - 1][] = [
-            'text' => $text
+            'text' => $text,
+            'request_contact' => true,
         ];
     }
 

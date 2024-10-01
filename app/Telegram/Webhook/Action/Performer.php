@@ -24,6 +24,9 @@ class Performer extends Webhook
             case 'waiting_for_category':
                 $this->handleCategorySelection($user);
                 break;
+            case 'waiting_for_child_category':
+                $this->saveCategory($user);
+                break;
             case 'waiting_for_min_cost':
                 $this->saveMinCost($user);
                 break;
@@ -55,7 +58,6 @@ class Performer extends Webhook
         $user->state = 'waiting_for_name';
         $user->save();
 
-        // Prompt the user to enter their name
         Telegram::message($user->tg_id, 'Ваше полное имя и фамилия:')->send();
     }
 
@@ -101,11 +103,16 @@ class Performer extends Webhook
 
         Telegram::inlineButton($user->tg_id, 'Выберите подкатегорию', InlineButton::$buttons)->send();
 
+        $user->state = 'waiting_for_child_category';
+        $user->save();
+
     }
 
-    private function saveCategory(User $user, $category)
+    private function saveCategory(User $user)
     {
-        $category = json_decode($category);
+
+        $category = json_decode($this->request->input('callback_query')['data']);
+
         $category = Category::find($category->data);
 
 

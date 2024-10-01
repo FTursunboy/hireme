@@ -29,7 +29,7 @@ class WebhookController
     public function setWebhook() :Response
     {
         return Http::post( config('telegram.bot.url') . '/setWebhook', [
-            'url' => 'https://e462-95-142-94-22.ngrok-free.app/api/v1/telegram/webhook'
+            'url' => 'https://2dfd-217-8-46-80.ngrok-free.app/api/v1/telegram/webhook'
         ]);
     }
 }
