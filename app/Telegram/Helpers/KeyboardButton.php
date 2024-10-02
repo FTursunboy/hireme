@@ -11,16 +11,15 @@ class KeyboardButton
         'resize_keyboard' => true,
     ];
 
-    public static function add(mixed $text, string $action, array $data, int $row = 1)
+    public static function add(mixed $text, int $row = 1)
     {
-        $data['action'] = $action;
         self::$buttons['keyboard'][$row - 1][] = [
             'text' => $text,
             'request_contact' => true,
         ];
     }
 
-    public function remove()
+    public static function remove()
     {
         self::$buttons = [
             'remove_keyboard' => true

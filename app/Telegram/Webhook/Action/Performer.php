@@ -6,6 +6,7 @@ use App\Facades\Telegram;
 use App\Models\Category;
 use App\Models\User;
 use App\Telegram\Helpers\InlineButton;
+use App\Telegram\Helpers\KeyboardButton;
 use App\Telegram\Webhook\Webhook;
 
 class Performer extends Webhook
@@ -67,14 +68,20 @@ class Performer extends Webhook
         $user->state = 'waiting_for_phone';
         $user->save();
 
-        Telegram::message($user->tg_id, 'Ваш номер телефона: ')->send();
+        \App\Telegram\Helpers\KeyboardButton::add('Поделитесь номером телефона');
+
+        \App\Facades\Telegram::inlineButton($user->tg_id, 'Поделитесь номером телефона', \App\Telegram\Helpers\KeyboardButton::$buttons)->send();
     }
 
     private function savePhoneNumber(User $user)
     {
-        $user->phone_number = $this->request->input('message')['text'];
+        if (!isset($this->request->input('message')['contact']['phone_number'])) {
+            return;
+        }
+        $user->phone_number = $this->request->input('message')['contact']['phone_number'];
         $user->state = 'waiting_for_category';
         $user->save();
+
 
         $this->sendCategories($user);
     }
@@ -127,7 +134,7 @@ class Performer extends Webhook
     {
         $minCost = $this->request->input('message')['text'];
 
-        if (!is_numeric($minCost) || $minCost <= 0) {
+        if (!is_numeric($minCost) || $minCost <= 0 || $minCost > 10000000) {
             Telegram::message($user->tg_id, 'Введите правильную сумму')->send();
             return;
         }

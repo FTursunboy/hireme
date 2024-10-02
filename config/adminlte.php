@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'title' => 'AdminLTE 3',
+    'title' => 'Hireme',
     'title_prefix' => '',
     'title_postfix' => '',
 
@@ -63,7 +63,7 @@ return [
     |
     */
 
-    'logo' => '<b>Admin</b>LTE',
+    'logo' => '<b>HIREME</b>UZ',
     'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
@@ -294,12 +294,6 @@ return [
     */
 
     'menu' => [
-        // Navbar items:
-        [
-            'type' => 'navbar-search',
-            'text' => 'search',
-            'topnav_right' => true,
-        ],
         [
             'type' => 'fullscreen-widget',
             'topnav_right' => true,
@@ -307,25 +301,19 @@ return [
 
         // Sidebar items:
         [
-            'type' => 'sidebar-menu-search',
-            'text' => 'search',
-        ],
-        [
-            'text' => 'blog',
+            'text' => 'Администраторы',
             'url' => 'admin/blog',
             'can' => 'manage-blog',
         ],
         [
-            'text' => 'pages',
-            'url' => 'admin/pages',
-            'icon' => 'far fa-fw fa-file',
-            'label' => 4,
-            'label_color' => 'success',
+            'text' => 'Администраторы',
+            'url' => 'admin/administrator',
+            'icon' => 'far fa-fw fa-user',
         ],
         ['header' => 'account_settings'],
         [
-            'text' => 'profile',
-            'url' => 'admin/settings',
+            'text' => 'Исполнители',
+            'url' => 'admin/performers',
             'icon' => 'fas fa-fw fa-user',
         ],
         [

@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Facade;
  *
  * @method static Message editMessage(string $chat_id, string $text, int $message_id = null)
  * @method static Message inlineButton(mixed $chat_id, string $text, array $buttons)
+ * @method static Message keyBoardButton(mixed $chat_id, string $text, array $buttons)
  * @method  Bot send()
  */
 

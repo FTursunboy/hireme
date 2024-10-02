@@ -43,6 +43,8 @@ class Message extends Bot
         return $this;
     }
 
+
+
     public function editMessage(string $chat_id, string $text, int $message_id = null)
     {
         $this->method = 'editMessageText';

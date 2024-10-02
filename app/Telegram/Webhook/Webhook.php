@@ -16,6 +16,7 @@ class Webhook
 
     public function run()
     {
-        return Telegram::message('5002918981', 'error')->send();
+        return Telegram::message($this->request->input('message')['from']['id'], 'Я пока не знаю что ты имеешь ввиду, но обязательно научусь')->send();
     }
 }
+

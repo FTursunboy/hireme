@@ -3,6 +3,9 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class DatabaseSeeder extends Seeder
 {
@@ -11,14 +14,26 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
-        $this->call([
-            CategorySeeder::class,
-        ]);
+         Role::query()->insert([
+             ['name' => 'admin', 'guard_name' => 'web'],
+             ['name' => 'moderator', 'guard_name' => 'web'],
+             ['name' => 'performer', 'guard_name' => 'web'],
+             ['name' => 'customer', 'guard_name' => 'web']
+         ]);
+
+
+        \App\Models\User::create([
+            'name' => 'Test User',
+            'email' => 'admin@gmail.com',
+            'password' => Hash::make('password'),
+        ])->assignRole('admin');
+        \App\Models\User::create([
+            'name' => 'Test moderator',
+            'email' => 'moderator@gmail.com',
+            'password' => Hash::make('password'),
+        ])->assignRole('admin');
+
+        Artisan::call('db:seed CategorySeeder');
     }
 }

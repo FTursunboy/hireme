@@ -32,7 +32,10 @@ class InlineButton
 
         self::$buttons['inline_keyboard'][$lastRow][] = [
             'text' => $text,
-            'callback_data' => json_encode($data)
+            'callback_data' => json_encode($data),
+            'reply_markup' => [
+                'remove_keyboard' => true // Удаление клавиатуры
+            ]
         ];
     }
 
