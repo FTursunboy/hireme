@@ -94,7 +94,7 @@
                             <div class="form-group">
                                 <label for="name">Телефон</label>
                                 <input type="text" class="form-control @error('phone') is-invalid @enderror"
-                                       value="{{ old('name', $performer->phone) }}"
+                                       value="{{ old('phone', $performer->phone) }}"
                                        id="name" name="phone" placeholder="Введите Телефон ">
                                 @error('phone')
                                 <span class="invalid-feedback" role="alert">
