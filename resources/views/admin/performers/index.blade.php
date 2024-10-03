@@ -3,7 +3,7 @@
 @section('title', 'Администраторы')
 
 @section('content_header')
-    <h1>ИсполнителиF</h1>
+    <h1>Исполнители</h1>
 @endsection
 
 @push('css')
