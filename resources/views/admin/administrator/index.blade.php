@@ -22,10 +22,12 @@
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Администраторы</h3>
-                    <div>
+                    <div style="float: right">
+                        @role('admin')
                         <a href="{{ route('admin.administrator.create') }}" class="btn btn-primary" style="margin-left: 20px">
                             <i class="fas fa-plus"></i> Добавить
                         </a>
+                        @endrole
                     </div>
                 </div>
 
@@ -38,6 +40,7 @@
                             <th>Email</th>
                             <th>Роль</th>
                             <th>Статус</th>
+                            <th>Дата создания</th>
                             <th>Действия</th>
                         </tr>
                         </thead>
@@ -49,11 +52,13 @@
                                 <td>{{ $user->email }}</td>
                                 <td>{{ $user->roles?->first()?->name }}</td>
                                 <td>{{ $user->status ? 'Активный' : 'Не активный' }}</td>
+                                <td>{{ $user->created_at->format('d.m.Y') }}</td>
                                 <td>
                                     <a href="{{ route('admin.administrator.edit', $user->id) }}" class="icon-button" title="Изменить">
                                         <i class="fas fa-pen"></i>
                                     </a>
 
+                                    @role('admin')
                                     <form action="{{ route('admin.administrator.destroy', $user->id) }}" method="POST" style="display:inline-block;">
                                         @csrf
                                         @method('DELETE')
@@ -65,6 +70,7 @@
                                     <a href="{{ route('admin.administrator.block', $user->id) }}" class="icon-button" title="Заблокировать">
                                         <i class="fas fa-lock"></i>
                                     </a>
+                                    @endrole
                                 </td>
                             </tr>
                         @endforeach

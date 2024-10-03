@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdministratorController;
+use App\Http\Controllers\Admin\CustomersController;
 use App\Http\Controllers\Admin\PerformerController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -30,6 +31,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::get('/performers/archive/{profile}', [PerformerController::class, 'archive'])->name('performers.archive');
     Route::get('/subcategories/{categoryId}', [PerformerController::class, 'getSubcategories'])->name('subcategories');
 
+    Route::resource('customers', CustomersController::class);
+    Route::get('/customers/archive/{user}', [CustomersController::class, 'archive'])->name('customers.archive');
 });
 
 

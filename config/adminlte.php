@@ -104,13 +104,13 @@ return [
     | and 'cwrapper' to attach the preloader animation into the content-wrapper
     | element and avoid overlapping it with the sidebars and the top navbar.
     |
-    | For detailed instructions you can look the preloader section here:
+    | For detailed inswebtructions you can look the preloader section here:
     | https://github.com/jeroennoten/Laravel-AdminLTE/wiki/Basic-Configuration
     |
     */
 
     'preloader' => [
-        'enabled' => true,
+        'enabled' => false,
         'mode' => 'fullscreen',
         'img' => [
             'path' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
@@ -257,7 +257,7 @@ return [
     */
 
     'use_route_url' => false,
-    'dashboard_url' => 'home',
+    'dashboard_url' => '/',
     'logout_url' => 'logout',
     'login_url' => 'login',
     'register_url' => 'register',
@@ -301,80 +301,32 @@ return [
 
         // Sidebar items:
         [
-            'text' => 'Администраторы',
-            'url' => 'admin/blog',
-            'can' => 'manage-blog',
+            'text' => 'Дашборд',
+            'url' => 'admin/dashboard',
+            'icon' => 'fas fa-fw fa-user',
         ],
-        [
-            'text' => 'Администраторы',
-            'url' => 'admin/administrator',
-            'icon' => 'far fa-fw fa-user',
-        ],
-        ['header' => 'account_settings'],
         [
             'text' => 'Исполнители',
             'url' => 'admin/performers',
             'icon' => 'fas fa-fw fa-user',
         ],
         [
-            'text' => 'change_password',
-            'url' => 'admin/settings',
-            'icon' => 'fas fa-fw fa-lock',
+            'text' => 'Заказчики',
+            'url' => 'admin/customers',
+            'icon' => 'fas fa-fw fa-user',
         ],
         [
-            'text' => 'multilevel',
-            'icon' => 'fas fa-fw fa-share',
-            'submenu' => [
-                [
-                    'text' => 'level_one',
-                    'url' => '#',
-                ],
-                [
-                    'text' => 'level_one',
-                    'url' => '#',
-                    'submenu' => [
-                        [
-                            'text' => 'level_two',
-                            'url' => '#',
-                        ],
-                        [
-                            'text' => 'level_two',
-                            'url' => '#',
-                            'submenu' => [
-                                [
-                                    'text' => 'level_three',
-                                    'url' => '#',
-                                ],
-                                [
-                                    'text' => 'level_three',
-                                    'url' => '#',
-                                ],
-                            ],
-                        ],
-                    ],
-                ],
-                [
-                    'text' => 'level_one',
-                    'url' => '#',
-                ],
-            ],
-        ],
-        ['header' => 'labels'],
-        [
-            'text' => 'important',
-            'icon_color' => 'red',
-            'url' => '#',
+            'text' => 'Страницы',
+            'url' => 'admin',
+            'icon' => 'fas fa-fw fa-user',
         ],
         [
-            'text' => 'warning',
-            'icon_color' => 'yellow',
-            'url' => '#',
+            'text' => 'Администраторы',
+            'url' => 'admin/administrator',
+            'icon' => 'far fa-fw fa-user',
         ],
-        [
-            'text' => 'information',
-            'icon_color' => 'cyan',
-            'url' => '#',
-        ],
+
+
     ],
 
     /*
