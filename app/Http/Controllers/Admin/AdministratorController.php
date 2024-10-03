@@ -23,13 +23,13 @@ class AdministratorController extends Controller
 
     public function create()
     {
-        $roles = Role::get();
+        $roles = Role::where('name', 'admin')->orWhere('name', 'moderator')->get();
         return view('admin.administrator.create', compact('roles'));
     }
 
     public function edit(User $user)
     {
-        $roles = Role::get();
+        $roles = Role::where('name', 'admin')->orWhere('name', 'moderator')->get();
 
         return view('admin.administrator.edit', compact('user', 'roles'));
     }
