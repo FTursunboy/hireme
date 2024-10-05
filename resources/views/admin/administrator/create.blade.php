@@ -14,7 +14,6 @@
     <div class="row">
         <div class="col-12">
             <div class="card">
-                <div class="card card-primary">
                     <form method="post" action="{{ route('admin.administrator.post') }}">
                         @csrf
                         <div class="card-body">
@@ -81,7 +80,7 @@
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </div>
                     </form>
-                </div>
+
             </div>
         </div>
     </div>

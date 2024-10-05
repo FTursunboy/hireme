@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\PerformerRequest;
+use App\Http\Requests\Admin\PerformerUpdateRequest;
 use App\Http\Requests\Admin\UserRequest;
 use App\Http\Requests\Admin\UserUpdateRequest;
 use App\Models\Category;
@@ -11,6 +12,7 @@ use App\Models\Profile;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 
@@ -32,8 +34,8 @@ class PerformerController extends Controller
             $query->where('status', $request->status);
         }
 
-        $performers = $query->paginate(20);
-        $categories = Category::query()->whereNotNull('parent_id')->get();
+        $performers = $query->orderBy('created_at', 'desc')->paginate(20);
+        $categories = Category::query()->whereNull('parent_id')->get();
 
         if ($request->ajax()) {
             return view('admin.performers.table', compact('performers'))->render();
@@ -57,7 +59,6 @@ class PerformerController extends Controller
         $category = Category::query()->where('id', $performer->category_id)->first();
 
         $childCategories = Category::query()->where('parent_id', $category->parent_id)->get();
-
 
         return view('admin.performers.edit', compact('performer', 'categories', 'childCategories'));
     }
@@ -87,7 +88,7 @@ class PerformerController extends Controller
         return redirect()->route('admin.performers.index')->with('success', 'Успешно архивировано');
     }
 
-    public function update(Profile $performer, PerformerRequest $request)
+    public function update(Profile $performer, PerformerUpdateRequest $request)
     {
         $data = $request->validated();
 
@@ -115,7 +116,8 @@ class PerformerController extends Controller
         $user  = User::create([
             'name' => $data['name'],
             'phone_number' => $data['phone'],
-        ]);
+            'author_id' => Auth::id(),
+        ])->assignRole('performer');
 
         Profile::create([
             'user_id' => $user->id,

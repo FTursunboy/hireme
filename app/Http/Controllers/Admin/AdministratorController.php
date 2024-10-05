@@ -6,16 +6,33 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\UserRequest;
 use App\Http\Requests\Admin\UserUpdateRequest;
 use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 
 class AdministratorController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::whereHas('roles', function ($query) {
+        $query = User::whereHas('roles', function ($query) {
             return $query->where('name', 'admin')->orWhere('name', 'moderator');
-        })->get();
+        });
+
+        if ($request->filled('search')) {
+            $query->where('name', 'like', '%' . $request->search . '%')
+                ->orWhere('email', 'like', '%' . $request->search . '%');
+        }
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        $users = $query->orderBy('created_at', 'desc')->paginate(20);
+
+        if ($request->ajax()) {
+            return view('admin.administrator.table', compact('users'))->render();
+        }
 
 
         return view('admin.administrator.index', compact('users'));
@@ -79,7 +96,8 @@ class AdministratorController extends Controller
         User::create([
             'name' => $data['name'],
             'email' => $data['email'],
-            'password' => Hash::make($data['password'])
+            'password' => Hash::make($data['password']),
+            'author_id'  => Auth::id(),
         ])->assignRole($role->name);
 
         return redirect()->route('admin.administrator.index')->with('success', 'Успешно создано');

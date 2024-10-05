@@ -1,10 +1,10 @@
-
 <table class="table table-hover text-nowrap">
     <thead>
     <tr>
         <th>ID</th>
         <th>Имя</th>
-        <th>Телефон</th>
+        <th>Email</th>
+        <th>Роль</th>
         <th>Статус</th>
         <th>Дата создания</th>
         <th>Действия</th>
@@ -15,15 +15,17 @@
         <tr>
             <td>{{ $user->id }}</td>
             <td>{{ $user->name }}</td>
-            <td>{{ $user->phone_number }}</td>
+            <td>{{ $user->email }}</td>
+            <td>{{ $user->roles?->first()?->name }}</td>
             <td>{{ $user->status ? 'Активный' : 'Не активный' }}</td>
             <td>{{ $user->created_at->format('d.m.Y') }}</td>
             <td>
-                <a href="{{ route('admin.customers.edit', $user->id) }}" class="icon-button" title="Изменить">
+                <a href="{{ route('admin.administrator.edit', $user->id) }}" class="icon-button" title="Изменить">
                     <i class="fas fa-pen"></i>
                 </a>
 
-                <form action="{{ route('admin.customers.destroy', $user->id) }}" method="POST" style="display:inline-block;">
+                @role('admin')
+                <form action="{{ route('admin.administrator.destroy', $user->id) }}" method="POST" style="display:inline-block;">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="icon-button" title="Удалить" onclick="return confirm('Вы уверены?')">
@@ -31,6 +33,10 @@
                     </button>
                 </form>
 
+                <a href="{{ route('admin.administrator.block', $user->id) }}" class="icon-button" title="Заблокировать">
+                    <i class="fas fa-lock"></i>
+                </a>
+                @endrole
             </td>
         </tr>
     @endforeach

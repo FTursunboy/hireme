@@ -28,9 +28,6 @@
                     </button>
                 </form>
 
-                <a href="{{ route('admin.performers.archive', $performer->id) }}" class="icon-button" onclick="return confirm('Вы уверены?')" title="Архивировать">
-                    <i class="fas fa-archive"></i>
-                </a>
             </td>
         </tr>
     @endforeach

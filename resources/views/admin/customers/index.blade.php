@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Администраторы')
+@section('title', 'Заказчики')
 
 @section('content_header')
     <h1>Заказчики</h1>

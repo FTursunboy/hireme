@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\CustomerRequest;
+use App\Http\Requests\Admin\CustomerUpdateRequest;
 use App\Http\Requests\Admin\UserRequest;
 use App\Http\Requests\Admin\UserUpdateRequest;
 use App\Models\Category;
 use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 
@@ -30,7 +32,7 @@ class CustomersController extends Controller
             $query->where('status', $request->status);
         }
 
-        $users = $query->paginate(20);
+        $users = $query->orderBy('created_at', 'desc')->paginate(20);
 
         if ($request->ajax()) {
             return view('admin.customers.table', compact('users'))->render();
@@ -74,7 +76,7 @@ class CustomersController extends Controller
         return view('admin.customers.index')->with('success', 'Заказчик разблокирован');
     }
 
-    public function update(User $customer, CustomerRequest $request)
+    public function update(User $customer, CustomerUpdateRequest $request)
     {
         $data = $request->validated();
 
@@ -93,7 +95,8 @@ class CustomersController extends Controller
         User::create([
             'name' => $data['name'],
             'phone_number' => $data['phone'],
-            'active' => $data['status']
+            'active' => $data['status'],
+            'author_id' => Auth::id()
         ])->assignRole('customer');
 
         return redirect()->route('admin.customers.index')->with('success', 'Успешно создано');

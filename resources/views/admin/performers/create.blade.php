@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', 'Администраторы')
+@section('title', 'Исполнители')
 
 @section('content_header')
-    <h1>Добавление администратора</h1>
+    <h1>Добавление Исполнителя</h1>
 @endsection
 @push('css')
     <link rel="stylesheet" href="{{asset('style.css')}}">
@@ -14,13 +14,12 @@
     <div class="row">
         <div class="col-12">
             <div class="card">
-                <div class="card card-primary">
                     <form method="post" action="{{ route('admin.performers.store') }}">
                         @csrf
                         <div class="card-body">
                             <!-- Поле Имя -->
                             <div class="form-group">
-                                <label for="name">Имя</label>
+                                <label for="name">Имя и Фамилия</label>
                                 <input type="text" class="form-control @error('name') is-invalid @enderror"
                                        value="{{ old('name') }}"
                                        id="name" name="name" placeholder="Введите имя">
@@ -117,7 +116,7 @@
                             <button type="submit" class="btn btn-primary">Оптравить</button>
                         </div>
                     </form>
-                </div>
+
             </div>
         </div>
     </div>

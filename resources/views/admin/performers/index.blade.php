@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Администраторы')
+@section('title', 'Исполнители')
 
 @section('content_header')
     <h1>Исполнители</h1>
@@ -20,7 +20,6 @@
             @endif
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-
                     <div class="d-flex w-100">
                         <form id="filtersForm" class="form-inline">
                             <input type="text" name="search" id="searchInput" class="form-control" placeholder="Поиск..." style="margin-right: 10px;" value="{{ request()->get('search') }}">
@@ -28,10 +27,15 @@
                             <select name="category" id="categoryFilter" class="form-control" style="margin-right: 10px;">
                                 <option value="">Все категории</option>
                                 @foreach($categories as $category)
-                                    <option value="{{ $category->id }}">
+                                    <option value="{{ $category->id }}" {{ request()->get('category') == $category->id ? 'selected' : '' }}>
                                         {{ $category->name }}
                                     </option>
                                 @endforeach
+                            </select>
+
+                            <!-- Пустой селект для подкатегорий -->
+                            <select name="subcategory" id="subcategoryFilter" class="form-control" style="margin-right: 10px;" disabled>
+                                <option value="">Все подкатегории</option>
                             </select>
 
                             <select name="status" id="statusFilter" class="form-control" style="margin-right: 20px;">
@@ -61,6 +65,7 @@
         function fetchPerformers() {
             let search = $('#searchInput').val();
             let category = $('#categoryFilter').val();
+            let subcategory = $('#subcategoryFilter').val();
             let status = $('#statusFilter').val();
 
             $.ajax({
@@ -68,7 +73,7 @@
                 method: 'GET',
                 data: {
                     search: search,
-                    category: category,
+                    category: subcategory,
                     status: status,
                 },
                 success: function(response) {
@@ -77,9 +82,34 @@
             });
         }
 
+        function fetchSubcategories(categoryId) {
+            if (!categoryId) {
+                $('#subcategoryFilter').html('<option value="">Все подкатегории</option>').prop('disabled', true);
+                return;
+            }
+
+            $.ajax({
+                url: '/admin/subcategories/' + categoryId,
+                method: 'GET',
+                success: function(response) {
+                    let options = '<option value="">Все подкатегории</option>';
+                    response.subcategories.forEach(function(subcategory) {
+                        options += `<option value="${subcategory.id}">${subcategory.name}</option>`;
+                    });
+
+                    $('#subcategoryFilter').html(options).prop('disabled', false);
+                }
+            });
+        }
+
         $(document).ready(function() {
             $('#searchInput').on('input', fetchPerformers);
-            $('#categoryFilter').on('change', fetchPerformers);
+            $('#categoryFilter').on('change', function() {
+                let categoryId = $(this).val();
+                fetchSubcategories(categoryId);
+                fetchPerformers();
+            });
+            $('#subcategoryFilter').on('change', fetchPerformers);
             $('#statusFilter').on('change', fetchPerformers);
         });
     </script>

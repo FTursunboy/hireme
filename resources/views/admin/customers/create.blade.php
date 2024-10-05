@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Администраторы')
+@section('title', 'Заказчики')
 
 @section('content_header')
     <h1>Добавление заказчика</h1>
@@ -14,7 +14,6 @@
     <div class="row">
         <div class="col-12">
             <div class="card">
-                <div class="card card-primary">
                     <form method="post" action="{{ route('admin.customers.store') }}">
                         @csrf
                         <div class="card-body">
@@ -67,7 +66,7 @@
                             <button type="submit" class="btn btn-primary">Отправить</button>
                         </div>
                     </form>
-                </div>
+
             </div>
         </div>
     </div>

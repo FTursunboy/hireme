@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AdministratorController;
 use App\Http\Controllers\Admin\CustomersController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PerformerController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -33,6 +34,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 
     Route::resource('customers', CustomersController::class);
     Route::get('/customers/archive/{user}', [CustomersController::class, 'archive'])->name('customers.archive');
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 });
 
 

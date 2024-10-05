@@ -4,12 +4,14 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use PharIo\Manifest\Author;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
@@ -27,7 +29,8 @@ class User extends Authenticatable
         'password',
         'tg_id',
         'email',
-        'status'
+        'status',
+        'author_id'
     ];
 
     /**
@@ -58,6 +61,11 @@ class User extends Authenticatable
     public function profile() :HasOne
     {
         return $this->hasOne(Profile::class);
+    }
+
+    public function author() :BelongsTo
+    {
+        return $this->belongsTo(User::class, 'author_id');
     }
 
 }

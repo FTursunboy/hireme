@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', 'Администраторы')
+@section('title', 'Исполнители')
 
 @section('content_header')
-    <h1>Изменение администратора</h1>
+    <h1> </h1>
 @endsection
 @push('css')
     <link rel="stylesheet" href="{{asset('style.css')}}">
@@ -11,20 +11,31 @@
 
 
 @section('content')
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card card-primary">
-                    <form method="post" action="{{ route('admin.performers.update', $performer->id) }}">
-                        @csrf
-                        @method('PUT') <!-- Use PUT for update -->
+
+    <form method="post" action="{{ route('admin.performers.update', $performer->id) }}">
+        <div class="row align-items-center">
+            <div class="col-md-9">
+                <h4>Редактирование исполнителя</h4>
+            </div>
+            <div class="col-md-3 mb-3 text-right">
+                <button type="submit" class="btn btn-primary">Сохранить</button>
+            </div>
+        </div>
+        <div class="row">
+
+            @csrf
+            @method('PUT')
+            <div class="col-8">
+                <div class="card">
+
+
                         <div class="card-body">
                             <!-- Поле Имя -->
                             <div class="form-group">
-                                <label for="name">Имя</label>
+                                <label for="name">Имя и Фамилия</label>
                                 <input type="text" class="form-control @error('name') is-invalid @enderror"
                                        value="{{ old('name', $performer->name) }}"
-                                id="name" name="name" placeholder="Введите имя">
+                                       id="name" name="name" placeholder="Введите имя">
                                 @error('name')
                                 <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
@@ -36,11 +47,11 @@
                             <div class="form-group">
                                 <label for="category_id">Выберите категорию</label>
                                 <select id="category_id" class="form-control @error('category_id') is-invalid @enderror"
-                                        name="category_id">
+                                >
                                     <option value="">Выберите родительскую категорию</option>
                                     @foreach($categories as $category)
                                         <option value="{{ $category->id }}"
-                                            {{ old('category_id', $performer->category?->parentCategory?->id) == $category->id ? 'selected' : '' }}>
+                                            {{ $performer->category?->parentCategory?->id == $category->id ? 'selected' : '' }}>
                                             {{ $category->name }}
                                         </option>
                                     @endforeach
@@ -56,10 +67,11 @@
                             <div class="form-group">
                                 <label for="subcategory_id">Выберите подкатегорию</label>
                                 <select class="form-control @error('subcategory_id') is-invalid @enderror"
-                                        name="subcategory_id" id="subcategory_id">
-                                   @foreach($childCategories as $childCategory)
-                                        <option {{$childCategory->id === $performer->category_id ? 'selected' : ''}} value="{{$childCategory->id}}">{{$childCategory->name}}</option>
-                                   @endforeach
+                                        name="category_id" id="subcategory_id">
+                                    @foreach($childCategories as $childCategory)
+                                        <option
+                                            {{$childCategory->id === $performer->category_id ? 'selected' : ''}} value="{{$childCategory->id}}">{{$childCategory->name}}</option>
+                                    @endforeach
                                 </select>
                                 @error('subcategory_id')
                                 <span class="invalid-feedback" role="alert">
@@ -68,29 +80,6 @@
                                 @enderror
                             </div>
 
-
-                            <div class="form-group">
-                                <label for="role_id">Статус</label>
-                                <select class="form-control @error('status') is-invalid @enderror" name="status" id="status">
-                                    <option value="{{\App\Enum\ModerationStatuses::Moderation}}"
-                                        {{ old('status', $performer->status) == \App\Enum\ModerationStatuses::Moderation ? 'selected' : '' }}>
-                                        {{\App\Enum\ModerationStatuses::Moderation}}
-                                    </option>
-                                    <option value="{{\App\Enum\ModerationStatuses::Published}}"
-                                        {{ old('status', $performer->status) == \App\Enum\ModerationStatuses::Published ? 'selected' : '' }}>
-                                        {{\App\Enum\ModerationStatuses::Published}}
-                                    </option>
-                                    <option value="{{\App\Enum\ModerationStatuses::UnPublished}}"
-                                        {{ old('status', $performer->status) == \App\Enum\ModerationStatuses::UnPublished ? 'selected' : '' }}>
-                                        {{\App\Enum\ModerationStatuses::UnPublished}}
-                                    </option>
-                                </select>
-                                @error('status')
-                                <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                                @enderror
-                            </div>
                             <div class="form-group">
                                 <label for="name">Телефон</label>
                                 <input type="text" class="form-control @error('phone') is-invalid @enderror"
@@ -104,7 +93,8 @@
                             </div>
                             <div class="form-group">
                                 <label for="name">Минимальная цена</label>
-                                <input type="number" class="form-control @error('min_service_cost') is-invalid @enderror"
+                                <input type="number"
+                                       class="form-control @error('min_service_cost') is-invalid @enderror"
                                        value="{{ old('min_service_cost', $performer->min_service_cost) }}"
                                        name="min_service_cost" placeholder="Введите минимальную цену">
                                 @error('min_service_cost')
@@ -116,7 +106,8 @@
 
                             <div class="form-group">
                                 <label for="">Описание услуги</label>
-                                <textarea class="form-control" name="service_description">{{ old('service_description', $performer->service_description) }}</textarea>
+                                <textarea class="form-control"
+                                          name="service_description">{{ old('service_description', $performer->service_description) }}</textarea>
                                 @error('service_description')
                                 <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -131,22 +122,69 @@
                             </div>
 
 
-
                         </div>
 
-                        <div class="card-footer">
-                            <button type="submit" class="btn btn-primary">Обновить</button>
-                        </div>
-                    </form>
+
+                    </div>
+
+
+            </div>
+            <div class="col-4">
+                <div class="card">
+                    <div class="card-body">
+
+                            <!-- Статус -->
+                            <div class="form-group">
+                                <label for="status">Статус*</label>
+                                <select class="form-control @error('status') is-invalid @enderror" name="status"
+                                        id="status">
+                                    <option value="{{\App\Enum\ModerationStatuses::Moderation}}"
+                                        {{ old('status', $performer->status) == \App\Enum\ModerationStatuses::Moderation->value ? 'selected' : '' }}>
+                                        {{\App\Enum\ModerationStatuses::Moderation}}
+                                    </option>
+                                    <option value="{{\App\Enum\ModerationStatuses::Published}}"
+                                        {{ old('status', $performer->status) == \App\Enum\ModerationStatuses::Published->value ? 'selected' : '' }}>
+                                        {{\App\Enum\ModerationStatuses::Published}}
+                                    </option>
+                                    <option value="{{\App\Enum\ModerationStatuses::UnPublished}}"
+                                        {{ old('status', $performer->status) == \App\Enum\ModerationStatuses::UnPublished->value ? 'selected' : '' }}>
+                                        {{\App\Enum\ModerationStatuses::UnPublished}}
+                                    </option>
+                                </select>
+                                @error('status')
+                                <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                                @enderror
+                            </div>
+
+                            <!-- ID -->
+                            <div class="form-group">
+                                <label for="id">ID</label>
+                                <p>{{ $performer->id }}</p>
+                            </div>
+
+                            <!-- Дата создания -->
+                            <div class="form-group">
+                                <label for="created_at">Дата создания</label>
+                                <p>{{ $performer->created_at->format('d-m-Y') }}</p>
+                            </div>
+
+                            <!-- Кем создан -->
+                            <div class="form-group">
+                                <label for="created_by">Кем создан</label>
+                                <p>{{ $performer->user->author->name }}</p>
+                            </div>
+                    </div>
                 </div>
             </div>
 
         </div>
-    </div>
+    </form>
 @endsection
 @push('js')
     <script>
-        document.getElementById('category_id').addEventListener('change', function() {
+        document.getElementById('category_id').addEventListener('change', function () {
             var categoryId = this.value;
 
             if (categoryId) {
@@ -159,7 +197,7 @@
                         subcategoryDropdown.innerHTML = '<option value="">Выберите подкатегорию</option>';
 
 
-                        data.subcategories.forEach(function(subcategory) {
+                        data.subcategories.forEach(function (subcategory) {
                             var option = document.createElement('option');
                             option.value = subcategory.id;
                             option.textContent = subcategory.name;

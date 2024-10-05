@@ -19,6 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('tg_id')->nullable()->unique();
             $table->boolean('status')->default(true);
             $table->string('password')->nullable();
+            $table->unsignedBigInteger('author_id')->nullable();
             $table->softDeletes();
             $table->rememberToken();
             $table->timestamps();
