@@ -34,7 +34,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth']], 
 
     Route::resource('customers', CustomersController::class);
     Route::get('/customers/archive/{user}', [CustomersController::class, 'archive'])->name('customers.archive');
-    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 });
 
 
