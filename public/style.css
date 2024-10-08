@@ -18,3 +18,332 @@
 .icon-button i {
     pointer-events: none;
 }
+
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+/* Header */
+.navbar {
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+    font-weight: 600;
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.btn-primary {
+    background-color: #000;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #333;
+}
+
+/* Main Section */
+.main-section {
+    background-image: url('https://source.unsplash.com/1600x900/?city,work'); /* Ссылка на изображение с Unsplash */
+    background-size: cover;
+    background-position: center;
+    height:60vh; /* Высота на весь экран */
+    position: relative;
+}
+
+.main-section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный тёмный слой для читаемости текста */
+}
+
+.main-section .container {
+    z-index: 2;
+    position: relative;
+}
+
+.main-section h1, .main-section p, .main-section a {
+    color: #fff;
+}
+
+.input-group .form-control {
+    font-size: 1.25rem;
+    padding: 15px 20px;
+}
+
+.btn-lg {
+    padding: 15px 30px;
+    font-size: 1.25rem;
+}
+
+/* Категории услуг */
+h2 {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+p {
+    font-weight: 400;
+    font-size: 1rem;
+}
+
+.category-title {
+    font-weight: 600;
+    font-size: 1rem;
+    color: #333;
+}
+
+.category-count {
+    font-weight: 400;
+    color: #8c8c8c;
+    font-size: 0.9rem;
+}
+
+.category-item {
+    padding: 15px 0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.btn-outline-primary {
+    border-color: #000;
+    color: #000;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 5px;
+}
+
+.btn-outline-primary:hover {
+    background-color: #000;
+    color: #fff;
+}
+
+
+/* Статистика */
+section.bg-light .fw-bold {
+    font-size: 1.75rem;
+    color: #333;
+}
+
+section.bg-light p {
+    font-size: 1rem;
+    color: #666;
+}
+
+/* Как это работает */
+section h2 {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+section .fw-bold {
+    font-size: 1.25rem;
+    color: #333;
+}
+
+section p {
+    font-size: 1rem;
+    color: #666;
+}
+
+.p-4 {
+    background-color: #f5f5f5;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+
+/* Footer */
+footer {
+    background-color: #000;
+    color: #fff;
+    padding: 40px 0;
+}
+
+footer h5 {
+    margin-bottom: 10px;
+    font-weight: 600;
+    font-size: 1.2rem;
+}
+
+footer p {
+    margin-bottom: 5px;
+    font-size: 1rem;
+}
+
+footer a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1rem;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+.text-start {
+    text-align: left;
+}
+
+.text-end {
+    text-align: right;
+}
+
+
+
+/* Стиль для категорий */
+.category-btn {
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 50px;
+    padding: 10px 20px;
+    color: #333;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.category-btn:hover {
+    background-color: #e9ecef;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Активное состояние для выбранной категории */
+.category-btn.active {
+    background-color: #28a745; /* Зелёный фон для выбранной категории */
+    color: #fff; /* Белый текст */
+    border-color: #28a745; /* Бордер зелёного цвета */
+}
+
+/* Исправление проблемы с белым цветом нажатой кнопки */
+.category-btn:focus {
+    outline: none;
+    background-color: #28a745; /* Оставляем тот же зелёный цвет при фокусе */
+    color: #fff; /* Текст тоже остаётся белым */
+    border-color: #28a745;
+}
+
+/* Для подкатегорий */
+.subcategory-btn {
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 50px;
+    padding: 8px 18px;
+    color: #333;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.subcategory-btn.active {
+    background-color: #17a2b8; /* Другой цвет для подкатегорий */
+    color: #fff;
+    border-color: #17a2b8;
+}
+
+.subcategory-btn:hover {
+    background-color: #e9ecef;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+
+
+
+.categories-section {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+
+
+/* Стили для секции подкатегорий */
+.subcategories-section {
+    margin-top: 30px;
+}
+
+.subcategories-list {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.subcategories-list .subcategory-btn {
+    background-color: #f1f1f1;
+    border: 1px solid #ddd;
+    border-radius: 30px;
+    padding: 10px 15px;
+    color: #555;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.subcategories-list .subcategory-btn.active {
+    background-color: #007bff; /* Синий фон при выборе подкатегории */
+    color: #fff;
+    border-color: #007bff;
+}
+
+.subcategories-list .subcategory-btn:hover {
+    background-color: #e2e6ea;
+    color: #333;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Фиксированный футер */
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+}
+
+
+
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.tag {
+    background-color: #4CAF50;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 20px;
+    display: inline-flex;
+    align-items: center;
+}
+.tag button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 16px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+.multiSelect {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+}

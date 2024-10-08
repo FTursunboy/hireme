@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мультивыбор категорий и подкатегорий с тегами</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+
+    </style>
+</head>
+<body>
+
+    <h1>Мультивыбор категорий и подкатегорий с тегами</h1>
+
+    <form>
+        <label for="categories">Выберите категорию:</label>
+        <select id="categories" name="category">
+            <option value="" disabled selected>Выберите категорию</option>
+            <option value="category1">Ремонт и строительство</option>
+            <option value="category2">Уборка и клининг</option>
+            <option value="category3">IT и цифровые услуги</option>
+        </select>
+
+        <label for="subcategories">Выберите подкатегории:</label>
+        <select id="subcategories" name="subcategories[]" multiple>
+            <!-- Подкатегории будут добавляться динамически -->
+        </select>
+
+        <div class="tags" id="selectedTags">
+            <!-- Теги выбранных подкатегорий будут появляться здесь -->
+        </div>
+    </form>
+
+    <script>
+        const categories = document.getElementById('categories');
+        const subcategories = document.getElementById('subcategories');
+        const selectedTagsContainer = document.getElementById('selectedTags');
+
+        // Маппинг категорий и подкатегорий для hireme
+        const categoryToSubcategories = {
+            'category1': ['Малярные работы', 'Электромонтаж', 'Сантехнические работы', 'Укладка плитки', 'Монтаж окон'],
+            'category2': ['Генеральная уборка', 'Химчистка мебели', 'Мытье окон', 'Уборка после ремонта', 'Уборка офисов'],
+            'category3': ['Создание сайтов', 'Настройка сетей', 'Ремонт компьютеров', 'Программирование', 'Техническая поддержка'],
+        };
+
+        // Для хранения выбранных подкатегорий
+        let selectedSubcategories = [];
+
+        categories.addEventListener('change', function() {
+            const selectedCategory = categories.value;
+            // Очищаем подкатегории
+            subcategories.innerHTML = '';
+
+            if (categoryToSubcategories[selectedCategory]) {
+                categoryToSubcategories[selectedCategory].forEach(subcategory => {
+                    const option = document.createElement('option');
+                    option.value = subcategory;
+                    option.text = subcategory;
+                    subcategories.add(option);
+                });
+            }
+        });
+
+        subcategories.addEventListener('change', function() {
+            const selectedOptions = Array.from(subcategories.selectedOptions).map(option => option.value);
+
+            // Добавляем выбранные подкатегории, которые еще не были выбраны
+            selectedOptions.forEach(option => {
+                if (!selectedSubcategories.includes(option)) {
+                    selectedSubcategories.push(option);
+                    addTag(option);
+                }
+            });
+        });
+
+        function addTag(subcategory) {
+            const tag = document.createElement('span');
+            tag.classList.add('tag');
+            tag.textContent = subcategory;
+
+            const removeButton = document.createElement('button');
+            removeButton.textContent = '×';
+            removeButton.addEventListener('click', () => {
+                // Удаляем подкатегорию из массива и интерфейса
+                selectedSubcategories = selectedSubcategories.filter(item => item !== subcategory);
+                tag.remove();
+            });
+
+            tag.appendChild(removeButton);
+            selectedTagsContainer.appendChild(tag);
+        }
+    </script>
+
+</body>
+</html>

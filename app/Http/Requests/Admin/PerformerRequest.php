@@ -18,7 +18,6 @@ class PerformerRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'category_id' => 'required',
             'status' => 'required',
             'phone' => 'required|unique:profiles,phone|unique:users,phone_number',
             'min_service_cost' => 'required',

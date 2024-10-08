@@ -30,35 +30,24 @@
                                 @enderror
                             </div>
 
-
-                            <!-- Поле Роль -->
                             <div class="form-group">
-                                <label for="role_id">Выберите категорию</label>
-                                <select id="category_id" class="form-control @error('category_id') is-invalid @enderror"
-                                        >
-                                    <option value="">Выберите родительскую категорию</option>
+
+                                <label for="categories">Выберите категорию:</label>
+                                <select id="categories" name="category" class="multiSelect">
+                                    <option value="" disabled selected>Выберите категорию</option>
                                     @foreach($categories as $category)
-                                        <option value="{{ $category->id }}">
-                                            {{ $category->name }}
-                                        </option>
+                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
                                     @endforeach
                                 </select>
-                                @error('category_id')
-                                <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                            <div class="form-group">
-                                <label for="role_id">Выберите подктегорию</label>
-                                <select  class="form-control @error('category_id') is-invalid @enderror"
-                                        name="category_id" id="subcategory_id">
+
+                                <label for="subcategories">Выберите подкатегории:</label>
+                                <select id="subcategories" name="subcategories[]" class="multiSelect" multiple>
+
                                 </select>
-                                @error('category_id')
-                                <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+
+                                <div class="tags" id="selectedTags">
+
+                                </div>
                             </div>
 
                             <!-- Поле Роль -->
@@ -123,31 +112,67 @@
 @endsection
 @push('js')
 <script>
-    document.getElementById('category_id').addEventListener('change', function() {
-        var categoryId = this.value;
 
-        if (categoryId) {
+    const categories = document.getElementById('categories');
+    const subcategories = document.getElementById('subcategories');
+    const selectedTagsContainer = document.getElementById('selectedTags');
 
-            fetch(`/admin/subcategories/${categoryId}`)
+    // Для хранения выбранных подкатегорий
+    let selectedSubcategories = [];
+
+    categories.addEventListener('change', function() {
+        const selectedCategoryId = categories.value;
+
+        // Очищаем подкатегории
+        subcategories.innerHTML = '';
+
+        if (selectedCategoryId) {
+            fetch(`/admin/subcategories/${selectedCategoryId}`)
                 .then(response => response.json())
                 .then(data => {
-                    var subcategoryDropdown = document.getElementById('subcategory_id');
-
-                    subcategoryDropdown.innerHTML = '<option value="">Выберите подкатегорию</option>';
-
-
-                    data.subcategories.forEach(function(subcategory) {
-                        var option = document.createElement('option');
+                    console.log(data)
+                    data.subcategories.forEach(subcategory => {
+                        const option = document.createElement('option');
                         option.value = subcategory.id;
-                        option.textContent = subcategory.name;
-                        subcategoryDropdown.appendChild(option);
+                        option.text = subcategory.name;
+                        subcategories.add(option);
                     });
                 })
-                .catch(error => console.error('Error fetching subcategories:', error));
-        } else {
-            document.getElementById('subcategory_id').innerHTML = '<option value="">Выберите подкатегорию</option>';
+                .catch(error => console.error('Ошибка загрузки подкатегорий:',));
         }
     });
+
+    subcategories.addEventListener('change', function() {
+        const selectedOptions = Array.from(subcategories.selectedOptions).map(option => option.value);
+
+        selectedOptions.forEach(option => {
+            if (!selectedSubcategories.includes(option)) {
+                selectedSubcategories.push(option);
+                addTag(option);
+            }
+        });
+    });
+
+    function addTag(subcategoryId) {
+        const subcategoryOption = Array.from(subcategories.options).find(opt => opt.value == subcategoryId);
+        if (!subcategoryOption) return;
+
+        const subcategoryName = subcategoryOption.text;
+        const tag = document.createElement('span');
+        tag.classList.add('tag');
+        tag.textContent = subcategoryName;
+
+        const removeButton = document.createElement('button');
+        removeButton.textContent = '×';
+        removeButton.addEventListener('click', () => {
+            selectedSubcategories = selectedSubcategories.filter(item => item !== subcategoryId);
+            tag.remove();
+        });
+
+        tag.appendChild(removeButton);
+        selectedTagsContainer.appendChild(tag);
+    }
+
 </script>
 @endpush
 

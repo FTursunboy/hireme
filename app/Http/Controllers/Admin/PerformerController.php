@@ -94,7 +94,7 @@ class PerformerController extends Controller
 
         $performer->update([
             'phone' => $data['phone'],
-            'category_id' => $data['category_id'],
+            'category_id' => 2,
             'min_service_cost' => $data['min_service_cost'],
             'status' => $data['status'],
             'name' => $data['name'],
@@ -122,7 +122,7 @@ class PerformerController extends Controller
         Profile::create([
             'user_id' => $user->id,
             'phone' => $data['phone'],
-            'category_id' => $data['category_id'],
+            'category_id' => 2,
             'min_service_cost' => $data['min_service_cost'],
             'status' => $data['status'],
             'name' => $data['name'],

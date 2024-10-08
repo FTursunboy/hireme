@@ -302,31 +302,29 @@ return [
         // Sidebar items:
         [
             'text' => 'Дашборд',
-            'url' => 'admin/dashboard',
-            'icon' => 'fas fa-fw fa-user',
+            'url' => '/dashboard',
+            'icon' => 'fas fa-fw fa-tachometer-alt', // Изменено
         ],
         [
             'text' => 'Исполнители',
             'url' => 'admin/performers',
-            'icon' => 'fas fa-fw fa-user',
+            'icon' => 'fas fa-fw fa-users', // Изменено
         ],
         [
             'text' => 'Заказчики',
             'url' => 'admin/customers',
-            'icon' => 'fas fa-fw fa-user',
+            'icon' => 'fas fa-fw fa-user-tie', // Изменено
         ],
         [
             'text' => 'Страницы',
             'url' => 'admin',
-            'icon' => 'fas fa-fw fa-user',
+            'icon' => 'fas fa-fw fa-file-alt', // Изменено
         ],
         [
             'text' => 'Администраторы',
             'url' => 'admin/administrator',
-            'icon' => 'far fa-fw fa-user',
+            'icon' => 'fas fa-fw fa-user-shield', // Изменено
         ],
-
-
     ],
 
     /*
