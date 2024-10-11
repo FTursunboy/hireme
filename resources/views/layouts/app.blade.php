@@ -10,7 +10,7 @@
         <a href="#" class="navbar-brand">hireme</a>
 
         <div class="ms-auto">
-            <a href="{{route('login')}}" class="btn btn-secondary me-2">Логин</a>
+            <a href="{{route('login')}}" class="btn btn-secondary me-2">Войти</a>
             <a href="#" class="btn btn-primary btn-rounded">Стать исполнителем</a>
         </div>
     </div>

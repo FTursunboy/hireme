@@ -13,7 +13,8 @@
         <tr>
             <td>{{ $performer->id }}</td>
             <td>{{ $performer->name }}</td>
-            <td>{{ $performer->category?->name }}</td>
+            <td>{{$performer->categories->pluck('name')->implode(', ')}}</td>
+
             <td>{{ $performer->status }}</td>
             <td>
                 <a href="{{ route('admin.performers.edit', $performer->id) }}" class="icon-button" title="Изменить">

@@ -9,6 +9,7 @@ use App\Http\Requests\Admin\UserRequest;
 use App\Http\Requests\Admin\UserUpdateRequest;
 use App\Models\Category;
 use App\Models\Profile;
+use App\Models\ProfileCategory;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -56,11 +57,12 @@ class PerformerController extends Controller
     {
         $categories = Category::query()->whereNull( 'parent_id')->get();
 
-        $category = Category::query()->where('id', $performer->category_id)->first();
+        $category = Category::query()->where('id', $performer->categories()?->first()?->parent_id)->first();
 
-        $childCategories = Category::query()->where('parent_id', $category->parent_id)->get();
 
-        return view('admin.performers.edit', compact('performer', 'categories', 'childCategories'));
+        $childCategories = Category::query()->where('parent_id', $category->id)->get();
+
+        return view('admin.performers.edit', compact('performer', 'categories', 'childCategories', 'category'));
     }
 
     public function getSubcategories($categoryId)
@@ -91,11 +93,12 @@ class PerformerController extends Controller
     public function update(Profile $performer, PerformerUpdateRequest $request)
     {
         $data = $request->validated();
+        $min_service_cost = str_replace(',', '', $data['min_service_cost']);
 
         $performer->update([
             'phone' => $data['phone'],
             'category_id' => 2,
-            'min_service_cost' => $data['min_service_cost'],
+            'min_service_cost' => (int)$min_service_cost,
             'status' => $data['status'],
             'name' => $data['name'],
             'service_description' => $data['service_description']
@@ -113,25 +116,35 @@ class PerformerController extends Controller
     {
         $data = $request->validated();
 
-        $user  = User::create([
+        $subcategories = json_decode($data['subcategories'][0], true);
+        $min_service_cost = str_replace(',', '', $data['min_service_cost']);
+
+
+        $user = User::create([
             'name' => $data['name'],
             'phone_number' => $data['phone'],
             'author_id' => Auth::id(),
         ])->assignRole('performer');
 
-        Profile::create([
+        $profile = Profile::create([
             'user_id' => $user->id,
             'phone' => $data['phone'],
-            'category_id' => 2,
-            'min_service_cost' => $data['min_service_cost'],
+            'min_service_cost' =>(int) $min_service_cost,
             'status' => $data['status'],
             'name' => $data['name'],
             'service_description' => $data['service_description']
         ]);
 
+        foreach ($subcategories as $subcategoryId) {
+            ProfileCategory::create([
+                'profile_id' => $profile->id,
+                'category_id' => $subcategoryId,
+            ]);
+        }
 
         return redirect()->route('admin.performers.index')->with('success', 'Успешно создано');
     }
+
 
 
 

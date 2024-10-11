@@ -41,7 +41,7 @@
                                 </select>
 
                                 <label for="subcategories">Выберите подкатегории:</label>
-                                <select id="subcategories" name="subcategories[]" class="multiSelect" multiple>
+                                <select id="subcategories"  class="multiSelect" multiple>
 
                                 </select>
 
@@ -78,15 +78,18 @@
                             </div>
                             <div class="form-group">
                                 <label for="name">Минимальная цена</label>
-                                <input type="number" class="form-control @error('min_service_cost') is-invalid @enderror"
+                                <input type="text" class="form-control @error('min_service_cost') is-invalid @enderror"
                                        value="{{ old('min_service_cost') }}"
-                                      name="min_service_cost" placeholder="Введите минимальную цену">
+                                       id="min_service_cost"
+                                       name="min_service_cost" placeholder="Введите минимальную цену">
                                 @error('min_service_cost')
                                 <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
+        <strong>{{ $message }}</strong>
+    </span>
                                 @enderror
                             </div>
+                            <input type="hidden" name="subcategories[]" id="selectedSubcategoriesInput">
+
 
                             <div class="form-group">
                                 <label for="">Описание услуги</label>
@@ -111,68 +114,82 @@
     </div>
 @endsection
 @push('js')
-<script>
+    <script>
+        const categories = document.getElementById('categories');
+        const subcategories = document.getElementById('subcategories');
+        const selectedTagsContainer = document.getElementById('selectedTags');
+        const selectedSubcategoriesInput = document.getElementById('selectedSubcategoriesInput');
 
-    const categories = document.getElementById('categories');
-    const subcategories = document.getElementById('subcategories');
-    const selectedTagsContainer = document.getElementById('selectedTags');
+        // Для хранения выбранных подкатегорий
+        let selectedSubcategories = [];
 
-    // Для хранения выбранных подкатегорий
-    let selectedSubcategories = [];
+        categories.addEventListener('change', function() {
+            const selectedCategoryId = categories.value;
 
-    categories.addEventListener('change', function() {
-        const selectedCategoryId = categories.value;
+            // Очищаем подкатегории
+            subcategories.innerHTML = '';
 
-        // Очищаем подкатегории
-        subcategories.innerHTML = '';
-
-        if (selectedCategoryId) {
-            fetch(`/admin/subcategories/${selectedCategoryId}`)
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data)
-                    data.subcategories.forEach(subcategory => {
-                        const option = document.createElement('option');
-                        option.value = subcategory.id;
-                        option.text = subcategory.name;
-                        subcategories.add(option);
-                    });
-                })
-                .catch(error => console.error('Ошибка загрузки подкатегорий:',));
-        }
-    });
-
-    subcategories.addEventListener('change', function() {
-        const selectedOptions = Array.from(subcategories.selectedOptions).map(option => option.value);
-
-        selectedOptions.forEach(option => {
-            if (!selectedSubcategories.includes(option)) {
-                selectedSubcategories.push(option);
-                addTag(option);
+            if (selectedCategoryId) {
+                fetch(`/admin/subcategories/${selectedCategoryId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data);
+                        data.subcategories.forEach(subcategory => {
+                            const option = document.createElement('option');
+                            option.value = subcategory.id;
+                            option.text = subcategory.name;
+                            subcategories.add(option);
+                        });
+                    })
+                    .catch(error => console.error('Ошибка загрузки подкатегорий:', error));
             }
         });
-    });
 
-    function addTag(subcategoryId) {
-        const subcategoryOption = Array.from(subcategories.options).find(opt => opt.value == subcategoryId);
-        if (!subcategoryOption) return;
+        subcategories.addEventListener('change', function() {
+            const selectedOptions = Array.from(subcategories.selectedOptions).map(option => option.value);
 
-        const subcategoryName = subcategoryOption.text;
-        const tag = document.createElement('span');
-        tag.classList.add('tag');
-        tag.textContent = subcategoryName;
+            selectedOptions.forEach(option => {
+                if (!selectedSubcategories.includes(option)) {
+                    selectedSubcategories.push(option);
+                    addTag(option);
+                }
+            });
 
-        const removeButton = document.createElement('button');
-        removeButton.textContent = '×';
-        removeButton.addEventListener('click', () => {
-            selectedSubcategories = selectedSubcategories.filter(item => item !== subcategoryId);
-            tag.remove();
+            selectedSubcategoriesInput.value = JSON.stringify(selectedSubcategories);
+
         });
 
-        tag.appendChild(removeButton);
-        selectedTagsContainer.appendChild(tag);
-    }
+        function addTag(subcategoryId) {
+            const subcategoryOption = Array.from(subcategories.options).find(opt => opt.value == subcategoryId);
+            if (!subcategoryOption) return;
 
-</script>
+            const subcategoryName = subcategoryOption.text;
+            const tag = document.createElement('span');
+            tag.classList.add('tag');
+            tag.textContent = subcategoryName;
+
+            const removeButton = document.createElement('button');
+            removeButton.textContent = '×';
+            removeButton.addEventListener('click', () => {
+                selectedSubcategories = selectedSubcategories.filter(item => item !== subcategoryId);
+                tag.remove();
+
+                // Обновляем скрытое поле после удаления тега
+                selectedSubcategoriesInput.value = JSON.stringify(selectedSubcategories);
+            });
+
+            tag.appendChild(removeButton);
+            selectedTagsContainer.appendChild(tag);
+        }
+
+        const priceInput = document.getElementById('min_service_cost');
+        priceInput.addEventListener('input', function (e) {
+            // Удаляем все, кроме цифр
+            let value = e.target.value.replace(/\D/g, '');
+            // Форматируем с запятыми
+            e.target.value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        });
+
+    </script>
 @endpush
 

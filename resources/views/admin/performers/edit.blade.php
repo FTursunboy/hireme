@@ -49,10 +49,10 @@
                                 <select id="category_id" class="form-control @error('category_id') is-invalid @enderror"
                                 >
                                     <option value="">Выберите родительскую категорию</option>
-                                    @foreach($categories as $category)
-                                        <option value="{{ $category->id }}"
-                                            {{ $performer->category?->parentCategory?->id == $category->id ? 'selected' : '' }}>
-                                            {{ $category->name }}
+                                    @foreach($categories as $PCategory)
+                                        <option value="{{ $PCategory->id }}"
+                                            {{ $category->id == $PCategory->id ? 'selected' : '' }}>
+                                            {{ $PCategory->name }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -93,14 +93,15 @@
                             </div>
                             <div class="form-group">
                                 <label for="name">Минимальная цена</label>
-                                <input type="number"
+                                <input type="text"
                                        class="form-control @error('min_service_cost') is-invalid @enderror"
-                                       value="{{ old('min_service_cost', $performer->min_service_cost) }}"
+                                       value="{{ old('min_service_cost', number_format($performer->min_service_cost, 0, '.', ',')) }}"
+                                       id="min_service_cost"
                                        name="min_service_cost" placeholder="Введите минимальную цену">
                                 @error('min_service_cost')
                                 <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
+        <strong>{{ $message }}</strong>
+    </span>
                                 @enderror
                             </div>
 
@@ -208,6 +209,36 @@
             } else {
                 document.getElementById('subcategory_id').innerHTML = '<option value="">Выберите подкатегорию</option>';
             }
+        });
+    </script>
+    <script>
+        const priceInput = document.getElementById('min_service_cost');
+
+        // Функция для форматирования с запятыми
+        function formatNumber(value) {
+            return value.replace(/\D/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        }
+
+        // Убираем запятые и преобразуем в число перед отправкой формы
+        function parseNumber(value) {
+            return value.replace(/,/g, '');
+        }
+
+        // Обработчик события для ввода
+        priceInput.addEventListener('input', function (e) {
+            let value = e.target.value;
+            e.target.value = formatNumber(value);
+        });
+
+        // Обработчик события для изменения значения
+        priceInput.addEventListener('change', function (e) {
+            let value = e.target.value;
+            e.target.value = formatNumber(value);
+        });
+
+        // Если нужно сохранить в базу данных без запятых, перед отправкой формы:
+        document.querySelector('form').addEventListener('submit', function() {
+            priceInput.value = parseNumber(priceInput.value);
         });
     </script>
 @endpush
