@@ -13,7 +13,7 @@
         <tr>
             <td>{{ $performer->id }}</td>
             <td>{{ $performer->name }}</td>
-            <td>{{$performer->categories->pluck('name')->implode(', ')}}</td>
+            <td>{{\Illuminate\Support\Str::limit($performer->categories->pluck('name')->implode(', '), 50)}}</td>
 
             <td>{{ $performer->status }}</td>
             <td>
