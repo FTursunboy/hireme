@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PerformerController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -21,6 +22,10 @@ Route::get('categories', [CategoryController::class, 'index'])->name('categories
 Route::get('getSubcategories/{category}', [CategoryController::class, 'getSubcategories'])->name('category');
 
 
+Route::group(['prefix' => 'performers'], function () {
+    Route::get('/', [PerformerController::class, 'index'])->name('performers');
+
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

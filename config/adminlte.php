@@ -14,6 +14,7 @@ return [
     |
     */
 
+
     'title' => 'Hireme',
     'title_prefix' => '',
     'title_postfix' => '',

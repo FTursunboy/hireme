@@ -7,7 +7,7 @@
         <p class="lead text-white">Поможем найти надёжного исполнителя для любых задач</p>
         <div class="input-group mt-4 mx-auto" style="max-width: 700px;">
             <input type="text" class="form-control form-control-lg" placeholder="Услуга или специалист">
-            <button class="btn btn-primary btn-lg">Найти</button>
+            <a  href="{{route('performers')}}" class="btn btn-primary btn-lg">Найти</a>
         </div>
         <a href="#" class="text-white mt-3 d-block">Узнать больше о работе с приложением</a>
     </div>
