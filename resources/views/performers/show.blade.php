@@ -3,6 +3,7 @@
 <style>
     /* Common styles */
     .profile-card {
+        margin-top: 20px;
         background-color: #ffffff;
         border-radius: 10px;
         box-shadow: 0 2px 5px rgba(0,0,0,0.1);
@@ -23,7 +24,7 @@
 
     .profile-location {
         color: #666666;
-        font-size: 14px;
+        font-size: 16px;
         margin-bottom: 15px;
     }
     .action-buttons {
@@ -60,7 +61,7 @@
     }
     .services-list li {
         color: #666;
-        font-size: 14px;
+        font-size: 16px;
         margin-bottom: 1px;
         position: relative;
         padding-left: 15px;
@@ -79,7 +80,7 @@
 
     .description {
         color: #333333;
-        font-size: 14px;
+        font-size: 16px;
         line-height: 1.5;
     }
 

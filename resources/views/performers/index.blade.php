@@ -10,22 +10,10 @@
             padding: 15px 0;
         }
 
-        .profile-image {
-            width: 80px;
-            height: 80px;
-            margin-right: 15px;
-            margin-bottom: 0;
-        }
-
         .profile-info {
             flex: 1;
         }
 
-        .profile-info a {
-            font-size: 20px;
-            margin-bottom: 5px;
-            display: block;
-        }
 
         .profile-info p {
             font-size: 14px;
@@ -125,7 +113,7 @@
         padding: 1px 8px;
         border-radius: 3px;
         font-size: 10px;
-        background-color: #0088cc;
+        background-color: grey;;
         color: white;
         font-weight: bold;
         white-space: nowrap; /* Запрещаем перенос для числа */
@@ -164,14 +152,14 @@
     }
 
     .profile-image {
-        width: 100px;
-        height: 100px;
+        width: 80px;
+        height: 80px;
         border-radius: 50%;
         margin-right: 20px;
     }
 
     .profile-info a {
-        font-size: 30px;
+        font-size: 23px;
 
         color: #007bff;
         text-decoration: none;
@@ -224,7 +212,6 @@
                             @endforeach
                         </ul>
                     </div>
-
 
                 <div class="col-md-8 main-content">
                     <div class="text-center">
