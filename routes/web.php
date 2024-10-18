@@ -24,6 +24,7 @@ Route::get('getSubcategories/{category}', [CategoryController::class, 'getSubcat
 
 Route::group(['prefix' => 'performers'], function () {
     Route::get('/', [PerformerController::class, 'index'])->name('performers');
+    Route::get('/{profile}', [PerformerController::class, 'show'])->name('performers.show');
 
 });
 

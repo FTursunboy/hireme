@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+z
 @section('content')
     <div class="container text-center my-5">
         <h1>Выберите категорию задания</h1>
