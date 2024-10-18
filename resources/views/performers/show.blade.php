@@ -26,7 +26,6 @@
         font-size: 14px;
         margin-bottom: 15px;
     }
-
     .action-buttons {
         display: flex;
         gap: 10px;
@@ -50,16 +49,27 @@
         flex-grow: 1;
     }
 
+    .services-title {
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
     .services-list {
         list-style-type: none;
         padding-left: 0;
-        margin-bottom: 15px;
+        margin: 0;
     }
-
     .services-list li {
-        color: grey;
+        color: #666;
         font-size: 14px;
-        margin-bottom: 5px;
+        margin-bottom: 1px;
+        position: relative;
+        padding-left: 15px;
+    }
+    .services-list li::before {
+        content: "•";
+        position: absolute;
+        left: 0;
+        color: #999;
     }
 
     .min-cost {
@@ -142,25 +152,24 @@
             </div>
             <div class="profile-details">
                 <h2 class="profile-name">{{$profile->name}} (муж, 28 лет)</h2>
-                <p class="profile-location">{{$profile->address}}, Ташкент</p>
+                <p class="profile-location">{{$profile->address}}</p>
                 <div class="action-buttons">
                     <a class="action-button">Telegram</a>
                     <a class="action-button">Позвонить</a>
                 </div>
-                <div class="services-title">Услуги:</div>
-                <ul class="services-list">
-                    <li>SEO-оптимизация</li>
-                    <li>Контекстная реклама</li>
-                    <li>SMM</li>
-                    <li>Email-маркетинг</li>
-                    <li>Аналитика и отчеты</li>
-                </ul>
-                <p class="min-cost">Минимальная стоимость услуг: от 500 000 сум</p>
+                <div class="services-container">
+                    <div class="services-title">Услуги:</div>
+                    <ul class="services-list">
+                        @foreach($profile->categories as $category)
+                        <li>{{$category->name}}</li>
+                        @endforeach
+
+                    </ul>
+                </div>
+                <p style="margin-top: 10px" >Минимальная стоимость услуг: <span class="min-cost">от 500 000 сум</span> </p>
                 <div class="description-title">Описание</div>
                 <p class="description">
-                    Меня зовут Азамат Исматов, я профессиональный разработчик мобильных приложений с опытом работы более 5 лет. Я специализируюсь на создании высококачественных и функциональных приложений под Android и iOS. В моем портфолио более 30 успешных проектов, среди которых есть как небольшие стартапы, так и крупные корпоративные решения.
-
-                    Моя цель — предоставить клиентам надежные и инновационные решения, которые помогут им достичь бизнес-целей. Я всегда на связи и готов обсудить ваши идеи для создания успешного мобильного продукта.
+                    {{$profile->service_description}}
                 </p>
             </div>
         </div>
