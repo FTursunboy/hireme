@@ -154,9 +154,7 @@
     }
 
 
-    .container {
-        padding: 20px;
-    }
+
 
     .profile-card {
         display: flex;
@@ -198,7 +196,7 @@
     }
 </style>
 @section('content')
-    <div class="container">
+    <div style="margin-top: 50px" class="container">
         <ul class="breadcrumb" >
             <li><a href="/">Главная</a></li>
             <li><a href="/performers">Каталог исполнителей</a></li>
@@ -246,7 +244,7 @@
                     </div>
                     @foreach($profiles as $profile)
                         <div class="profile-card">
-                            <div class="profile-card">
+
                                 <img src="{{ asset('burger.jpg') }}" class="profile-image" alt="Профиль">
                                 <div class="profile-info">
                                     <a href="{{route('performers.show', $profile->id)}}">{{ $profile->name }}</a>
@@ -255,7 +253,7 @@
                                     <p>Минимальная стоимость услуг: <strong>от {{ $profile->min_service_cost }} сум</strong></p>
                                 </div>
                             </div>
-                        </div>
+
                         @endforeach
                         {{$profiles->links()}}
                     </div>
